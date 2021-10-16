@@ -1,0 +1,22 @@
+.container.wrapper {
+    height: 100vh;
+}
+
+.title{
+    height: 81px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 60px;
+    font-style: normal;
+    font-style: italic;
+    color: #000;
+    text-align: center;
+    margin-right: 10%;
+}
+
+.title span {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
