@@ -4,8 +4,9 @@ import { HomeComponent } from './views/home/home.component'
 import { ProfileComponent } from './views/profile/profile.component'
 
 const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent  },
-  { path: 'profile', component: ProfileComponent  }
+  { path: 'profile/:name', component: ProfileComponent  }
 ];
 
 @NgModule({

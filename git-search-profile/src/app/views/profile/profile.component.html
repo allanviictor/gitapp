@@ -1,19 +1,55 @@
 
 <div class="container">
-    <div class="row">
+    <div class="row d-flex align-items-center mt-5">
         <div class="col-4">
-            allanm
+            <p class="title"><span>Github</span>Search</p>
         </div>
         <div class="col-8">
-            <app-search (retornoUser)="returnUserSearch($event)"></app-search>
+            <!-- (retornoUser)="returnUserSearch($event)" -->
+            <app-search></app-search>
         </div>
     </div>
-    <div class="row">
-        <div class="col-4">
-
+    <div class="row mt-5">
+        <div class="col-4 ">
+            <div class="box-img">
+                <img class="photo-user" [src]='userModel.photo' alt="">
+            </div>
+            <div class="box-text-info-user">
+                <p class="name">{{ userModel.name }}</p>
+                <p class="description">{{ userModel.login }}</p>
+                <div class="list mt-4">
+                    <p class="list-item">
+                        <img alt="My image name" src="../../../assets/organization-icon.png">
+                        {{ userModel.company }}
+                    </p>
+                    <p class="list-item">
+                        <img alt="My image name" src="../../../assets/location-icon.png">
+                        {{ userModel.location }}
+                    </p>
+                    <p class="list-item">
+                        <img alt="My image name" src="../../../assets/star-icon.png">
+                        {{ userModel.stars }}
+                    </p>
+                    <p class="list-item">
+                        <img alt="My image name" src="../../../assets/repositorie-icon.png">
+                        {{ userModel.repositoriesCount }}
+                    </p>
+                    <p class="list-item">
+                        <img alt="My image name" src="../../../assets/followers-icon.png">
+                        {{ userModel.followers }} 
+                    </p>
+                </div>
+            </div>
         </div>
         <div class="col-8">
-            {{ user | json }}
+            <div *ngFor="let rep of repositoriesModel;let i = index" [ngClass]="i == 0? '': 'mt-5'"  class="repositories">
+                <p class="repositorie-name">{{ rep.repositorieName }}</p>
+                <p class="repositorie-description">{{ rep.repositorieDescription }}</p>
+                <p class="repositorie-stars">
+                    <img alt="My image name" src="../../../assets/star-icon.png">
+                    {{ rep.repositorieStars }}
+                </p>
+            </div>
         </div>
     </div>
 </div>
