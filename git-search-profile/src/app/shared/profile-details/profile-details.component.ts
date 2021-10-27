@@ -22,11 +22,11 @@ export class ProfileDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     /* console.log('fragment',this.activatedRoute.params) */
-    this.dataService.data.subscribe(event => {
+    /* this.dataService.data.subscribe(event => {
       console.log('user',this.user)
       console.log('userrepos',this.userRepos)
 
-    })
+    }) */
   }
 
 }

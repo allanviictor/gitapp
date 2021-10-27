@@ -2,17 +2,19 @@
 <div class="container">
     <div class="row d-flex align-items-center mt-5">
         <div class="col-4">
-            <p class="title"><span>Github</span>Search</p>
+            <a [routerLink]="['/home']" class="nav-link">
+                <p class="title"><span>Github</span>Search</p>
+            </a>
         </div>
         <div class="col-8">
             <!-- (retornoUser)="returnUserSearch($event)" -->
             <app-search></app-search>
         </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-5"  *ngIf="userNotFound == false; else notFound">
         <div class="col-4 ">
             <div class="box-img">
-                <img class="photo-user" [src]='userModel.photo' alt="">
+                <img class="photo-user"  [src]='image' alt="">
             </div>
             <div class="box-text-info-user">
                 <p class="name">{{ userModel.name }}</p>
@@ -52,6 +54,13 @@
             </div>
         </div>
     </div>
+    <ng-template #notFound>
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p class="repositorie-name">Usuario não Encontrado</p>
+            </div>
+        </div>
+    </ng-template>
 </div>
 
 

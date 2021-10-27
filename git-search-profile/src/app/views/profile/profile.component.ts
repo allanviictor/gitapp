@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../shared/service/data.service'
 import { SearchGit } from '../../shared/service/searchgit.service'
 import { UserModel } from '../../shared/service/model/user.model'
@@ -10,17 +10,19 @@ import { RepositoriesModel } from '../../shared/service/model/repositories.mode'
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy  {
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private dataService: DataService,
-    private searchGit: SearchGit
+    private searchGit: SearchGit,
+    private router: Router,
   ) { }
+
+
 
   user:any[] = []
   userRepositories:any[] = []
-
 
   userInfosTemplate:any;
 
@@ -28,48 +30,44 @@ export class ProfileComponent implements OnInit {
   repositoriesModel: RepositoriesModel[] = []
 
 
-  ngOnInit(): void {
-    this.dataService.data.subscribe(event => {
-      this.getUser(event)
-    })
+  userNotFound: boolean = false
 
-    
-    
-  }
+  image:String = '../../../assets/user-default-icon.png'
   
 
 
-
-  /* returnUserSearch(event){
-    console.log('event',event)
-    if(event.user.length == 0){
-      alert('nao existe usuario')
-    }else{
+  ngOnInit(): void {
+   
+    this.getUser(this.route.snapshot.params.name)
+    this.dataService.data.subscribe(name => {
+      this.getUser(name)
+      
+    })
+  
     
-      this.userInfosTemplate = event
-    }
-  } */
-
-  /* getUser(event){
-    console.log(event)
-    
-  } */
-
+  }
+  
   getUser(valueInput){
     this.user = []
     this.searchGit.getUser(valueInput).subscribe((data:any) => {
       console.log('data',data)
+      this.userNotFound = false
+
       this.userModel.name = data.name
       this.userModel.login = data.login
-      this.userModel.photo = data.avatar_url
+      this.image = data.avatar_url
       this.userModel.location = data.location == (undefined || null) ? '---': data.location
       this.userModel.company = data.company == (undefined || null) ? '---': data.company
       this.userModel.followers = data.followers.toString()
+      
       
     },error => {
       console.log(error)
       if(error.status == 404){
         this.user = []
+        console.log('usuario nao encontrado')
+        this.router.navigate([`profile/usuario-nao-econtrado`])
+        this.userNotFound = true;
       }
     },()=> {
       this.getUserRepos(valueInput)
@@ -82,7 +80,7 @@ export class ProfileComponent implements OnInit {
     this.searchGit.getUserRepositories(valueInput).subscribe((data:any[]) => {
       console.log('data repos',data)
       let lista: RepositoriesModel[] = []
-      let listaStars:any[] = []
+      let listaStars:any[] = [0]
       data.forEach(item => {
         let repo: RepositoriesModel = new RepositoriesModel()
         repo.repositorieName = item.name
@@ -106,6 +104,10 @@ export class ProfileComponent implements OnInit {
       console.log('userrepos',this.repositoriesModel) */
       /* console.log('userrepos',this.repositoriesModel) */
     })
+  }
+
+  ngOnDestroy(){
+    /* this.dataService.data.unsubscribe() */
   }
 
  
